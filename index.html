@@ -137,7 +137,7 @@
             color: #ff3333; /* 눈에 띄는 빨간색 */
             font-size: 18px;
             margin-top: -25px;
-            margin-bottom: 25px;
+            margin-bottom: 10px;
             visibility: hidden; /* 처음엔 공간만 차지하고 보이지 않게 숨김 */
         }
         
@@ -393,23 +393,14 @@
             padding: 10px 40px;
         }
 
-        /* 🌟 게임오버 화면 */
-        #game-over-overlay {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            /* 🌟 게임오버 전용 배경 이미지 지정 */
-            background-image: url('gameover_bg.jpg');
-            background-size: 100% 100%;
-            background-position: center;
-            background-repeat: no-repeat;
+        /* 🌟 게임오버 화면 스타일 (클리어 화면과 동일한 구조) */
+        #screen-gameover { 
             display: none;
             flex-direction: column;
             align-items: center;
-            /* 위쪽 여백을 주어 전체적인 내용을 아래로 내림 */
             justify-content: flex-start; 
-            padding-top: 220px; /* 이 숫자를 키우면 더 아래로 내려갑니다 */
+            padding-top: 210px; /* 위쪽 여백 */
             box-sizing: border-box;
-            z-index: 100;
         }
 
         #game-over-title-img {
@@ -487,13 +478,6 @@
 
             <!-- 타자 입력창 -->
             <div id="game-input-area"><input type="text" id="word-input" autocomplete="off"></div>
-            
-            <!-- 🌟 게임 화면 안에 있는 게임오버 오버레이 수정 -->
-            <div id="game-over-overlay">
-                <img src="gameover_title.png" alt="GAME OVER" id="game-over-title-img">
-                <img src="gameover_text.png" alt="디저트가 무너졌어요... 다시 도전해볼까요?" id="game-over-text-img">
-                <button id="btn-restart" class="pink-btn" onclick="location.reload()">★ 다시하기 ★</button>
-            </div>
         </div>
 
         <!-- 🌟 3. 클리어 화면 통째로 수정 -->
@@ -504,6 +488,13 @@
                 <button id="btn-share" class="pink-btn">★ 공유하기 ★</button>
                 <button id="btn-home" class="pink-btn" onclick="location.reload()">★ 처음으로 ★</button>
             </div>
+        </div>
+
+        <!-- 🌟 게임 화면 안에 있는 게임오버 오버레이 수정 -->
+        <div id="screen-gameover" class="screen">
+            <img src="gameover_title.png" alt="GAME OVER" id="game-over-title-img">
+            <img src="gameover_text.png" alt="디저트가 무너졌어요... 다시 도전해볼까요?" id="game-over-text-img">
+            <button id="btn-restart" class="pink-btn" onclick="location.reload()">★ 다시하기 ★</button>
         </div>
 
     </div>
@@ -531,6 +522,7 @@
         const screenStart = document.getElementById('screen-start');
         const screenGame = document.getElementById('screen-game');
         const screenClear = document.getElementById('screen-clear');
+        const screenGameOver = document.getElementById('screen-gameover');
         
         const btnStartGame = document.getElementById('btn-start-game');
         const popupId = document.getElementById('popup-id');
@@ -588,6 +580,7 @@
         const livesDisplay = document.getElementById('hearts-container');
         const messageOverlay = document.getElementById('message-overlay');
         const gameOverOverlay = document.getElementById('game-over-overlay');
+        const gameOverBg = document.getElementById('game-over-bg'); // 🌟 추가된 부분
 
 
         // 이벤트 리스너 설정
@@ -818,7 +811,14 @@
             isGameOver = true;
             clearInterval(gameInterval);
             clearInterval(spawnInterval);
-            gameOverOverlay.style.display = 'flex';
+            
+            // 🌟 1. 브라우저 전체 배경을 게임오버 배경으로 변경 (창 크기에 맞춰 꽉 참)
+            document.body.style.backgroundImage = "url('gameover_bg.jpg')";
+            
+            // 🌟 2. 게임 화면을 숨기고 게임오버 화면을 띄움
+            screenGame.style.display = 'none';
+            screenGameOver.style.display = 'flex';
+            
             wordInput.blur(); 
         }
 
