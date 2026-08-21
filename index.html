@@ -653,14 +653,6 @@
             userNickname = inputNickname.value.trim();
             const rawId = userNickname.replace(/^@/, ''); // @를 제외한 순수 아이디
             
-            // 🚨 맨 앞에 @가 없는 경우
-            if (!userNickname.startsWith('@')) {
-                idWarning.textContent = "아이디는 '@아이디'형태로 입력해 주세요.";
-                idWarning.style.visibility = 'visible'; 
-                inputNickname.focus(); 
-                return;
-            }
-
             // 🚨 빈칸이거나, @만 있거나, 아이디가 3글자 미만(1~2글자)인 경우
             if (userNickname === "" || rawId.length < 3) {
                 idWarning.textContent = "아이디를 입력해 주세요.";
@@ -669,6 +661,14 @@
                 return;
             }
             
+            // 🚨 맨 앞에 @가 없는 경우
+            if (!userNickname.startsWith('@')) {
+                idWarning.textContent = "아이디는 '@아이디'형태로 입력해 주세요.";
+                idWarning.style.visibility = 'visible'; 
+                inputNickname.focus(); 
+                return;
+            }
+
             screenStart.style.display = 'none';
             screenGame.style.display = 'flex';
             
