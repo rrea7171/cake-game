@@ -619,7 +619,8 @@
 
         btnShare.addEventListener('click', () => {
             const text = '#우경이의_읏쇼읏쇼_케이크쌓기 \n#하진이_생일_기념_926단_케이크 \n';
-            const url = encodeURIComponent(window.location.href); 
+            const shareUrl = "https://ganadara.vercel.app/?v=1";
+            const url = encodeURIComponent(shareUrl); 
             window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${url}`, '_blank');
         });
 
