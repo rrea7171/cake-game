@@ -559,11 +559,15 @@
             '딸기케이크', '치즈케이크', '초코케이크', '무스케이크', '티라미수', 
             '당근케이크', '생크림케익', '녹차케이크', '고구마케익', '휘핑크림', 
             '슈가파우더', '바닐라빈', '베이킹소다', '케이크시트', '마스카포네',
-            '크림치즈', '버터크림', '생일축하해'
+            '크림치즈', '버터크림', '생일축하해', '까눌레', '녹차',
+            '추로스'
         ];
 
-        const SpecialwordList = ['아기자기', '자포자기', '배틀히어로', '솔탱탈출기', '여우경', '이하진', '우경하진', '자기듀오'];
+        const SpecialwordList = [
+            '아기자기', '자포자기', '배틀히어로', '솔탱탈출기', '여우경', 
+            '이하진', '우경하진', '자기듀오', '바니바니파르페'];
         let normalCakeCount = 0; // 일반 케이크가 나온 횟수를 셀 변수
+        let recentWords = [];    // 🌟 최근 나온 단어 5개를 기억할 배열
 
         const cakeImages = ['cake1.png', 'cake2.png', 'cake3.png', 'cake4.png', 'cake5.png'];
         
@@ -677,13 +681,26 @@
             
             let word;
             
-            /* 🌟 수정됨: 5개 나오면 1개 스페셜 단어가 나오도록 조건문 추가 */
+            /* 5개 나오면 1개 스페셜 단어가 나오도록 설정 */
             if (normalCakeCount >= 5) {
                 word = SpecialwordList[Math.floor(Math.random() * SpecialwordList.length)];
                 normalCakeCount = 0; // 스페셜이 나왔으므로 카운트를 다시 0으로 리셋
             } else {
-                word = wordList[Math.floor(Math.random() * wordList.length)];
-                normalCakeCount++; // 일반 단어가 나올 때마다 카운트 1씩 증가
+                // 🌟 최근 5개 목록(recentWords)에 없는 단어들만 골라냄
+                const availableWords = wordList.filter(w => !recentWords.includes(w));
+                
+                // 걸러진 단어들 중에서 랜덤 선택
+                word = availableWords[Math.floor(Math.random() * availableWords.length)];
+                
+                // 최근 목록에 추가
+                recentWords.push(word);
+                
+                // 최근 목록이 5개를 넘어가면 가장 오래된 단어 제거
+                if (recentWords.length > 5) {
+                    recentWords.shift();
+                }
+                
+                normalCakeCount++;
             }
             
             const imageSrc = cakeImages[Math.floor(Math.random() * cakeImages.length)];
