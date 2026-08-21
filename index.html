@@ -69,26 +69,52 @@
             transform: translateX(-50%);
             width: 530px; /* 가로크기 지정 */
         }
-        .pink-btn {
-            background-color: #ff6699;
-            color: white;
-            border: 3px solid #ff99cc;
-            border-radius: 50px;
-            padding: 15px 50px;
-            font-size: 32px;
-            font-family: 'Jua', sans-serif;
+        /* 🌟 이미지 버튼 공통 효과 (클릭 시 쫀득하게 눌리는 효과) */
+        .img-btn {
             cursor: pointer;
-            box-shadow: 0 5px 0 #cc3366, 0 10px 20px rgba(0,0,0,0.2);
-            transition: all 0.1s;
-            position: absolute;
-        }
-        
-        .pink-btn:active {
-            transform: translateY(5px);
-            box-shadow: 0 0 0 #cc3366, 0 5px 10px rgba(0,0,0,0.2);
+            transition: transform 0.1s ease;
+            user-select: none;
+            -webkit-user-drag: none;
+            object-fit: contain;
         }
 
-        #btn-start-game { bottom: 120px; }
+        .img-btn:active {
+            transform: scale(0.95);
+        }
+
+        /* 1. 대문 게임 시작 버튼 */
+        #btn-start-game {
+            position: absolute;
+            bottom: 120px;
+            left: 50%;
+            transform: translateX(-50%);
+            height: 70px;
+        }
+
+        #btn-start-game:active {
+            transform: translateX(-50%) scale(0.95);
+        }
+
+        /* 2. 아이디 확인 버튼 */
+        #btn-confirm-id {
+            height: 70px;
+        }
+
+        /* 3. 클리어 화면 버튼 그룹 */
+        .clear-btn-group {
+            display: flex;
+            gap: 40px;
+            align-items: center;
+        }
+
+        .clear-btn-group .img-btn {
+            height: 60px;
+        }
+
+        /* 4. 게임오버 다시하기 버튼 */
+        #btn-restart {
+            height: 50px;
+        }
 
         #popup-id {
             display: none; 
@@ -105,11 +131,11 @@
             z-index: 50;
         }
 
-        #popup-id h2 {
-            color: #ff6699;
-            font-size: 45px;
+        /* 🌟 아이디 입력 팝업 타이틀 이미지 */
+        #id-title-img {
+            height: 45px;
             margin-bottom: 40px;
-            text-shadow: 2px 2px 0px #ffe6f0;
+            object-fit: contain;
         }
 
         #input-nickname {
@@ -336,14 +362,14 @@
             100% { transform: translateY(0) scale(1); opacity: 1; }
         }
 
+        /* 🌟 라운드 알림 오버레이 이미지 */
         #message-overlay {
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            font-size: 80px;
-            color: #ff3377;
-            text-shadow: 4px 4px 0 #fff;
+            height: 80px; /* 기존 폰트 크기와 동일한 높이 */
+            object-fit: contain;
             z-index: 20;
             pointer-events: none;
             opacity: 0;
@@ -440,21 +466,17 @@
         <!-- 1. 대문 화면 -->
         <div id="screen-start" class="screen">
             <img src="title.png" alt="한글시루 모으기" id="start-title-img"> // 게임타이틀 띄우기 //
-            <button id="btn-start-game" class="pink-btn">★ 게임 시작 ★</button>
+            <img src="btn_start.png" id="btn-start-game" class="img-btn" alt="게임 시작">
 
             <!-- 아이디 입력 팝업 -->
             <div id="popup-id">
-                <h2>아이디 입력</h2>
-                
+                <img src="id_title.png" id="id-title-img" alt="아이디 입력">
                 <!-- 입력창 위 안내 문구 -->
                 <p id="id-instruction">트위터 아이디를 입력하세요. 아이디는 @, 영어, 숫자, _(언더바)만 입력할 수 있습니다.</p>
-                
                 <input type="text" id="input-nickname" placeholder="@아이디" autocomplete="off">
-                
                 <!-- 입력창 아래 경고 문구 (처음엔 숨겨둠) -->
                 <p id="id-warning">아이디를 입력해 주세요.</p>
-                
-                <button id="btn-confirm-id" class="pink-btn">★ 확인 ★</button>
+                <img src="btn_confirm.png" id="btn-confirm-id" class="img-btn" alt="확인">
             </div>
         </div>
 
@@ -477,7 +499,7 @@
             <div id="game-board">
                 <!-- 떨어지는 영역 -->
                 <div id="play-area">
-                    <div id="message-overlay">ROUND 1</div>
+                    <img id="message-overlay" src="round1.png" alt="ROUND">
                 </div>
                 <!-- 쌓이는 타워 영역 -->
                 <div id="stack-area">
@@ -497,8 +519,8 @@
             <img src="clear_title.png" alt="Clear!" id="clear-title-img">
             <div id="clear-nickname-display">닉네임</div>
             <div class="clear-btn-group">
-                <button id="btn-share" class="pink-btn">★ 공유하기 ★</button>
-                <button id="btn-home" class="pink-btn" onclick="location.reload()">★ 처음으로 ★</button>
+                <img src="btn_share.png" id="btn-share" class="img-btn" alt="공유하기">
+                <img src="btn_home.png" id="btn-home" class="img-btn" alt="처음으로" onclick="location.reload()">
             </div>
         </div>
 
@@ -506,7 +528,7 @@
         <div id="screen-gameover" class="screen">
             <img src="gameover_title.png" alt="GAME OVER" id="game-over-title-img">
             <img src="gameover_text.png" alt="디저트가 무너졌어요... 다시 도전해볼까요?" id="game-over-text-img">
-            <button id="btn-restart" class="pink-btn" onclick="location.reload()">★ 다시하기 ★</button>
+            <img src="btn_restart.png" id="btn-restart" class="img-btn" alt="다시하기" onclick="location.reload()">
         </div>
 
     </div>
@@ -559,7 +581,7 @@
             '딸기케이크', '치즈케이크', '초코케이크', '무스케이크', '티라미수', 
             '당근케이크', '생크림케익', '녹차케이크', '고구마케익', '휘핑크림', 
             '슈가파우더', '바닐라빈', '베이킹소다', '케이크시트', '마스카포네',
-            '크림치즈', '버터크림', '생일축하해', '까눌레', '녹차',
+            '크림치즈', '버터크림', '생일축하해', '까늘레', '녹차',
             '추로스'
         ];
 
@@ -605,32 +627,46 @@
             inputNickname.focus();
         });
 
-        // 실시간 입력 제한 (@, 영어, 숫자, _ 만 허용)
+        // 🌟 1. 실시간 입력 제한 (@ 1개 제한, 허용 문자 필터링, 최대 16자 제한)
         inputNickname.addEventListener('input', (e) => {
-            e.target.value = e.target.value.replace(/[^@a-zA-Z0-9_]/g, '');
+            // @, 영문, 숫자, _ 이외의 문자 즉시 제거
+            let val = e.target.value.replace(/[^@a-zA-Z0-9_]/g, '');
+            
+            // @는 최초 1개만 남기고 추가 입력되는 @는 자동 삭제
+            let atCount = 0;
+            val = val.replace(/@/g, () => (++atCount === 1 ? '@' : ''));
+            
+            // 총 20자 초과 시 입력 차단
+            if (val.length > 20) {
+                val = val.slice(0, 20);
+            }
+            
+            e.target.value = val;
+
             if (e.target.value.length > 0) {
                 idWarning.style.visibility = 'hidden';
             }
         });
 
-        // '확인' 버튼 클릭 -> 아이디 저장 및 게임 화면 이동
+        // 🌟 2. '확인' 버튼 클릭 검증 (3글자 미만 차단 및 @ 누락 검사)
         btnConfirmId.addEventListener('click', () => {
             userNickname = inputNickname.value.trim();
+            const rawId = userNickname.replace(/^@/, ''); // @를 제외한 순수 아이디
             
-            // 🚨 1. 아무것도 입력하지 않았을 때
-            if (userNickname === "") {
-                idWarning.textContent = "아이디를 입력해 주세요."; // 빈칸용 경고 문구로 변경
-                idWarning.style.visibility = 'visible'; 
-                inputNickname.focus(); 
-                return; // 여기서 멈춤
-            }
-            
-            // 🚨 2. 맨 앞에 @가 없는 경우 (새로 추가된 로직!)
+            // 🚨 맨 앞에 @가 없는 경우
             if (!userNickname.startsWith('@')) {
-                idWarning.textContent = "아이디는 '@아이디'형태로 입력해 주세요."; // @ 누락용 경고 문구로 변경
+                idWarning.textContent = "아이디는 '@아이디'형태로 입력해 주세요.";
                 idWarning.style.visibility = 'visible'; 
                 inputNickname.focus(); 
-                return; // 여기서 멈춤
+                return;
+            }
+
+            // 🚨 빈칸이거나, @만 있거나, 아이디가 3글자 미만(1~2글자)인 경우
+            if (userNickname === "" || rawId.length < 3) {
+                idWarning.textContent = "아이디를 입력해 주세요.";
+                idWarning.style.visibility = 'visible'; 
+                inputNickname.focus(); 
+                return;
             }
             
             screenStart.style.display = 'none';
@@ -669,8 +705,8 @@
             }
         }
 
-        function showMessage(msg) {
-            messageOverlay.textContent = msg;
+        function showMessage(roundNum) {
+            messageOverlay.src = `round${roundNum}.png`;
             messageOverlay.style.opacity = 1;
             setTimeout(() => { messageOverlay.style.opacity = 0; }, 1500);
         }
@@ -833,7 +869,7 @@
             clearInterval(spawnInterval);
             spawnInterval = setInterval(spawnCake, spawnRate);
             
-            showMessage(`ROUND ${round}`);
+            showMessage(round);
         }
 
         function endGame() {
@@ -864,7 +900,7 @@
 
         function initGame() {
             updateLivesDisplay();
-            showMessage('ROUND 1');
+            showMessage(1);
             
             gameInterval = setInterval(gameLoop, 30); 
             spawnInterval = setInterval(spawnCake, spawnRate);
